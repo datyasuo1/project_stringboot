@@ -21,10 +21,11 @@ public class Sale {
 
     private String SlNo;
     private String SalesmanID;
-    private String ProdID;
+
+    @ManyToOne
+    @JoinColumn(name = "ProId", referencedColumnName = "ProId")
+    private Product ProdID;
     private String SalesmanName;
     private String DOS;
-    @OneToMany(mappedBy = "ProdID", cascade = CascadeType.ALL)
-    private Set<Product> product;
 
 }
