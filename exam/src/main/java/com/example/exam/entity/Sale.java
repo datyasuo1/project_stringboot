@@ -18,8 +18,8 @@ import java.util.Set;
 @Table(name = "sales_detail")
 public class Sale {
     @Id
-
-    private String SlNo;
+//@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int SlNo;
     private String SalesmanID;
 
     @ManyToOne

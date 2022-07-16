@@ -18,7 +18,7 @@ import java.util.UUID;
 @Component
 //@RequiredArgsConstructor
 public class ApplicationSeed implements CommandLineRunner {
-    boolean seed = false;
+    boolean seed = true;
     final ProductRepository productRepository;
     final SaleRepository saleRepository;
     Faker faker;
@@ -45,6 +45,7 @@ public class ApplicationSeed implements CommandLineRunner {
         List<Product> productList = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             Product product = new Product();
+            product.setProId(String.valueOf(i));
             product.setProdName(faker.name().name());
             product.setDescription(faker.lorem().sentence());
             product.setDateOfManf(LocalDateTime.now());
@@ -60,16 +61,12 @@ public class ApplicationSeed implements CommandLineRunner {
         for (int i = 0; i < 50; i++) {
             Sale sale = new Sale();
             Product product = productList.get(random.nextInt(productList.size()));
-            sale.setSalesmanID(UUID.randomUUID().toString());
+            sale.setSlNo(i);
             sale.setProdID(product);
             sale.setSalesmanName(faker.name().firstName());
             sale.setDOS(faker.name().fullName());
             saleList.add(sale);
         }
         saleRepository.saveAll(saleList);
-    }
-
-    public static void main(String[] args) {
-
     }
 }
