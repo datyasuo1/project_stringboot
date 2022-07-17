@@ -38,24 +38,4 @@ public class ProductApi {
         );
     }
 
-
-//    @Autowired
-//    private ProductRepository productRepository;
-//
-//    @RequestMapping(method = RequestMethod.POST)
-//    public ResponseEntity<?> save(@RequestBody ProductDTO productDTO) {
-//        // tạo ra product từ productdto
-//        Product product = new Product();
-//        product.setName(productDTO.getName());
-//        product.setDescription(product.getDescription());
-//        product.setPrice(productDTO.getPrice());
-//        product.setSlug(StringHelper.toSlug(productDTO.getName()));
-//        product.setStatus(ProductSimpleStatus.ACTIVE);
-//        productRepository.save(product);
-//        productDTO.setId(product.getId());
-//        productDTO.setCreatedAt(product.getCreatedAt() == null ? "" : product.getCreatedAt().toString());
-//        productDTO.setUpdatedAt(product.getUpdatedAt() == null ? "" : product.getUpdatedAt().toString());
-//        productDTO.setStatus(product.getStatus().name());
-//        return new ResponseEntity<>(productDTO, HttpStatus.OK);
-//    }
 }

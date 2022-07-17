@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String helloUser () {
-        return "hello account with role user";
+        return "user";
     }
 }

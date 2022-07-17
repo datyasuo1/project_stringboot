@@ -35,7 +35,6 @@ public class AuthenticationController {
         AccountDTO account = authenticationService.saveAccount(registerDTO);
         return ResponseEntity.ok().body(account);
     }
-
     @RequestMapping(value = "/token/refresh", method = RequestMethod.GET)
     public ResponseEntity<Object> refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
@@ -46,13 +45,10 @@ public class AuthenticationController {
             String token = authorizationHeader.replace("Bearer", "").trim();
             DecodedJWT decodedJWT = JwtUtil.getDecodedJwt(token);
             String username = decodedJWT.getSubject();
-            //load account in the token
             Account account = authenticationService.getAccount(username);
             if (account == null) {
                 return ResponseEntity.badRequest().body("Wrong token: Username not exist");
             }
-            //now return new token
-            //generate tokens
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
             List<String> roles = new ArrayList<>();
             for (Role role:
@@ -60,8 +56,6 @@ public class AuthenticationController {
                 authorities.add(new SimpleGrantedAuthority(role.getName()));
                 roles.add(role.getName());
             }
-
-//            authorities.add(new SimpleGrantedAuthority(account.getRole().getName()));
             String accessToken = JwtUtil.generateToken(
                     account.getUsername(),
                     roles,
@@ -76,7 +70,6 @@ public class AuthenticationController {
             CredentialDTO credential = new CredentialDTO(accessToken, refreshToken,roles);
             return ResponseEntity.ok(credential);
         } catch (Exception ex) {
-            //show error
             return ResponseEntity.internalServerError().body(ex.getMessage());
         }
     }

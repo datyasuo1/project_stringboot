@@ -21,26 +21,22 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
-/**
- * this filter is call when user want to login to the system
- * the default login path is "/login" but it can be override, see override login path in ApiSecurityConfig
- */
+
 public class ApiAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    //we need this class to authenticate user when they login successfully
+
     private final AuthenticationManager authenticationManager;
 
     public ApiAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
-    //this function is call first when user try to login with their user name and password
-    //so here we get username and password from request body then let spring do the magic
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
             String jsonData = request.getReader().lines().collect(Collectors.joining());
             Gson gson = new Gson();
-            //it should be loginDTO
+
             RegisterDTO registerDTO = gson.fromJson(jsonData, RegisterDTO.class);
             String username = registerDTO.getUsername();
             String password = registerDTO.getPassword();
@@ -51,17 +47,15 @@ public class ApiAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
     }
 
-    //when username and password is correct this function will be call and pass in current login success information
-    //so here we will return token for user
+
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
         User user = (User) authentication.getPrincipal(); //get user that successfully login
-        //generate tokens
         String accessToken = JwtUtil.generateToken(user.getUsername(),
                 user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()),
                 request.getRequestURL().toString(),
                 JwtUtil.ONE_DAY * 7);
-        // generate refresh token
+
         String refreshToken = JwtUtil.generateToken(user.getUsername(),
                 user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()),
                 request.getRequestURL().toString(),

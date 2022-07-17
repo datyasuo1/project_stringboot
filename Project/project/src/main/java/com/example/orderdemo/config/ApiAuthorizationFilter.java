@@ -20,8 +20,7 @@ import java.util.*;
 
 import static java.util.Arrays.stream;
 
-// this filter will run first with all request
-// here we get the token from user then assign role for them
+
 public class ApiAuthorizationFilter extends OncePerRequestFilter {
     private static final String[] IGNORE_PATHS = {"/api/v1/login", "/api/v1/register", "/api/v1/token/refresh"};
 
@@ -38,7 +37,6 @@ public class ApiAuthorizationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        //get token in header then decode jwt token to get username and roles -> then set roles for request
         try {
             String token = authorizationHeader.replace("Bearer", "").trim();
             DecodedJWT decodedJWT = JwtUtil.getDecodedJwt(token);

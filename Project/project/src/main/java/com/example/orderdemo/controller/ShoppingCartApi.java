@@ -57,7 +57,7 @@ public class ShoppingCartApi {
                     .shoppingCart(shoppingCart)
                     .build();
 
-            shoppingCart.addTotalPrice(cartItem); // add tổng giá bigdecimal
+            shoppingCart.addTotalPrice(cartItem);
             setCartItem.add(cartItem);
         }
         shoppingCart.setItems(setCartItem);

@@ -37,11 +37,8 @@ ApiSecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/api/v1/register**", "/api/v1/login**", "/api/v1/token/refresh**", "/api/v1/products/**", "/api/v1/add-to-cart/**", "/api/v1/orders/**").permitAll();
         http.authorizeRequests().antMatchers("/api/v1/users/**").hasAnyAuthority("user");
-//        http.authorizeRequests().antMatchers("/api/v1/products**").hasAnyAuthority("admin","user");
-//        http.authorizeRequests().antMatchers("/api/v1/products/**").hasAnyAuthority("admin","user");
         http.authorizeRequests().antMatchers("/api/v1/admin/orders/**").hasAnyAuthority("admin","order");
         http.authorizeRequests().antMatchers("/api/v1/admin/orders**").hasAnyAuthority("admin","order");
-        //add requests path for more role here
         http.authorizeRequests().antMatchers("/api/v1/admin/**").hasAnyAuthority("admin");
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(apiAuthenticationFilter);
